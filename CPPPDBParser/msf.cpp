@@ -38,10 +38,24 @@ static PVOID MsfLoadPages (MSF* msf, ULONG *pdwPointers, SIZE_T nPages)
 	return Data;
 }
 
-PVOID MapExistingFile(const char* fn, int mode, int n, SIZE_T* psize)
+PVOID MapExistingFile(const char* fn, int mode, DWORD offset, SIZE_T* psize)
 {
-	//TODO:
-	return 0;
+	void* p = 0;
+	HANDLE hf = CreateFileA(fn,
+		GENERIC_READ| GENERIC_WRITE, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
+	if (hf != INVALID_HANDLE_VALUE) {
+		DWORD sizeHigh = 0;
+		SIZE_T sizeLow = GetFileSize(hf,&sizeHigh);
+		if (psize != 0) {
+			*psize = sizeLow;
+		}
+
+		HANDLE mf = CreateFileMapping(hf, 0, PAGE_READWRITE, sizeHigh, sizeLow, 0);
+		if (mf != INVALID_HANDLE_VALUE) {
+			p = MapViewOfFileEx(mf, FILE_MAP_ALL_ACCESS, 0, offset, 0, 0);
+		}
+	}
+	return p;
 }
 
 //

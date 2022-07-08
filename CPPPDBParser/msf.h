@@ -18,7 +18,8 @@
 #ifndef MAP_WRITE
 #define MAP_WRITE 2
 #endif
-PVOID MapExistingFile(const char* fn, int mode, int n, SIZE_T* psize);
+
+PVOID MapExistingFile(const char* fn, int mode, DWORD offset, SIZE_T * psize);
 
 // 32-byte signature
 #define MSF_SIGNATURE_700 "Microsoft C/C++ MSF 7.00\r\n\032DS\0\0"
