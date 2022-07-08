@@ -374,7 +374,7 @@ void DumpMod (PPDB_SYMBOLS syms)
 	}
 }
 
-bool bApplyFromNtPath = false;
+bool bApplyFromNtPath = true;
 
 void FromNtPath()
 {
@@ -834,7 +834,7 @@ int main (int argc, char **argv)
 		}
 	}
 
-	PPDB_SYMBOLS syms;
+	PPDB_SYMBOLS syms = 0;
 
 	FromNtPath ();
 
